@@ -55,3 +55,16 @@ app.put("/buku/:id", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.delete("/buku/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const buku = await Book.findByPk(id);
+    if (!buku) return res.status(404).json({ message: "Buku tidak ditemukan" });
+
+    await buku.destroy();
+    res.json({ message: "Buku berhasil dihapus" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
