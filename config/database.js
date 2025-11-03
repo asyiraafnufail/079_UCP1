@@ -1,5 +1,5 @@
-import Sequelize from 'sequelize';
-import dotenv from 'dotenv';
+import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
 dotenv.config();
 
 const sequelize = new Sequelize(
@@ -9,15 +9,20 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
+    port: process.env.DB_PORT || 3308,
     logging: false,
   }
 );
 
-try {
-  await sequelize.authenticate();
-  console.log('Terhubung ke database MySQL');
-} catch (error) {
-  console.error('Koneksi gagal:', error);
-}
+const connectDB = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("✅ Koneksi ke database berhasil!");
+  } catch (error) {
+    console.error("❌ Koneksi gagal:", error);
+  }
+};
+
+connectDB();
 
 export default sequelize;
