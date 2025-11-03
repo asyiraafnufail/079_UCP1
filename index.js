@@ -40,3 +40,18 @@ app.post("/buku", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.put("/buku/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { judul, pengarang, tahun, bidang } = req.body;
+
+    const buku = await Book.findByPk(id);
+    if (!buku) return res.status(404).json({ message: "Buku tidak ditemukan" });
+
+    await buku.update({ judul, pengarang, tahun, bidang });
+    res.json(buku);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
