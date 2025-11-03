@@ -30,3 +30,13 @@ app.get("/buku/:id", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+app.post("/buku", async (req, res) => {
+  try {
+    const { judul, pengarang, tahun, bidang } = req.body;
+    const bukuBaru = await Book.create({ judul, pengarang, tahun, bidang });
+    res.status(201).json(bukuBaru);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
